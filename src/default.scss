@@ -1,0 +1,77 @@
+@import "~bootstrap/scss/bootstrap";
+
+html {
+  font-size: 10px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root,
+.App {
+  height: 100%;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background: #fff;
+  color: #3d464d;
+  text-align: left;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a,
+a:hover {
+  color: #1a66ff;
+  text-decoration: none;
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+.main {
+  max-width: 1450px;
+  height: calc(100% -6.5rem);
+  width: 100%;
+  padding: 0 10px;
+  margin: 0 auto;
+}
+
+.btn-primary,
+.btn-primary.disabled,
+.btn-primary:disabled {
+  border-color: #ffd333;
+  background: #ffd333;
+  color: #3d464d;
+  fill: #3d464d;
+}
+
+.btn {
+  border-radius: 2px;
+  transition: all 0.1s ease-in-out;
+  font-size: 1rem;
+  height: calc(2.25rem + 2px);
+  line-height: 1.5;
+  padding: 0.375rem 1.25rem;
+  font-weight: 500;
+}
+
+.btn-lg {
+  font-size: 1.125rem;
+  height: calc(2.75rem + 2px);
+  padding: 0.8125rem 2rem;
+  line-height: 1;
+  font-weight: 500;
+}

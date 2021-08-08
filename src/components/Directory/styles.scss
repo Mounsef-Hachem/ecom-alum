@@ -1,0 +1,31 @@
+.directory {
+  height: 100%;
+  margin-top: 20px;
+  .item {
+    div {
+      background-size: cover;
+      height: 440px;
+      position: relative;
+      display: block;
+
+      .content {
+        position: absolute;
+        height: 200px;
+        width: 200px;
+        left: 58px;
+
+        .title {
+          height: auto;
+          margin-bottom: 8px;
+        }
+        .text {
+          height: auto;
+        }
+        .button {
+          height: auto;
+          margin-top: 40px;
+        }
+      }
+    }
+  }
+}
