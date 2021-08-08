@@ -1,26 +1,88 @@
 .header {
-  height: 6.5rem;
+  height: 5.4rem;
   background: #ffd333;
-  box-shadow: 0 0.5px 1px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px rgba(0, 0, 0, 0.04), inset 0 -1px rgba(0, 0, 0, 0.04);
   color: #3d464d;
 
   .wrap {
     height: 100%;
-    position: relative;
 
-    .logo {
-      width: 14rem;
-      position: absolute;
-      left: 10;
-      top: 50%;
-      -webkit-transform: translateY(-50%);
-      -moz-transform: translateY(-50%);
-      transform: translateY(-50%);
+    .nav-row {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-align: center;
+      align-items: center;
+      position: relative;
+      height: 100%;
 
-      img {
-        display: block;
-        width: 100%;
-        margin: 0;
+      .nav-logo {
+        width: 12rem;
+
+        img {
+          display: block;
+          width: 100%;
+          margin: 0;
+        }
+      }
+
+      .nav-links {
+        margin-left: 14px;
+        margin-right: 14px;
+      }
+
+      .nav-indicators {
+        display: -ms-flexbox;
+        display: flex;
+        height: 100%;
+        margin-left: auto;
+      }
+
+      .nav-indicators,
+      .nav-links {
+        ul,
+        li {
+          margin: 0;
+          padding: 0;
+        }
+
+        ul {
+          height: inherit;
+          z-index: 10;
+          display: -ms-flexbox;
+          display: flex;
+          list-style: none;
+        }
+
+        li {
+          list-style-type: none;
+
+          a {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            font-size: 15px;
+            line-height: 1;
+            letter-spacing: 0.02em;
+            font-weight: 700;
+            color: inherit;
+
+            span {
+              display: flex;
+              -ms-flex-align: center;
+              align-items: center;
+              background: transparent;
+              transition: background-color 0.2s;
+              padding: 0 14px;
+              height: 42px;
+              border-radius: 2px;
+            }
+
+            span:hover {
+              background: hsla(0, 0%, 100%, 0.5);
+              box-shadow: none;
+            }
+          }
+        }
       }
     }
   }

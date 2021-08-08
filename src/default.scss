@@ -75,3 +75,12 @@ a:hover {
   line-height: 1;
   font-weight: 500;
 }
+
+.btn-primary.focus,
+.btn-primary:focus,
+.btn-primary:hover {
+  border-color: #3d464d;
+  background: #3d464d;
+  color: #fff;
+  fill: #fff;
+}
