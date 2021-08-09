@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
 import './styles.scss';
 
 import { auth, signInWithGoogle } from './../../firebase/utils';
@@ -55,8 +55,7 @@ class SignIn extends Component {
                                     <div className="form-group">
                                         <label htmlFor="login-password">Password</label>
                                         <input id="login-password" onChange={this.handleChange} type="password" value={password} name="password" placeholder="Password" className="form-control" />
-                                    </div>
-                                    <div className="form-group">
+                                        <small class="form-text text-muted"><Link to="/recovery">Forgotten Password</Link></small>
                                     </div>
                                     <button type="submit" className="btn btn-primary mt-4">
                                         Login
