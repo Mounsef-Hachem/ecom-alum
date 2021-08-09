@@ -1,16 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { auth, handleUserProfile } from './../../firebase/utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { signUpUser, resetAllAuthForms } from './../../redux/User/user.actions';
 import './styles.scss';
 
-const SignUp = props => {
+const mapState = ({ user }) => ({
+    signUpSuccess: user.signUpSuccess,
+    signUpError: user.signUpError
+})
 
+const SignUp = props => {
+    const { signUpSuccess, signUpError } = useSelector(mapState);
+    const dispatch = useDispatch();
     const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState([]);
 
+    useEffect(() => {
+        if (signUpSuccess) {
+            resetForm();
+            dispatch(resetAllAuthForms());
+            props.history.push('/');
+        }
+    }, [signUpSuccess]);
+
+    useEffect(() => {
+        if (Array.isArray(signUpError) && signUpError.length > 0) {
+            setErrors(signUpError);
+        }
+    }, [signUpError]);
 
     const resetForm = () => {
         setDisplayName('');
@@ -20,23 +40,14 @@ const SignUp = props => {
         setErrors([]);
     }
 
-    const handleFormSubmit = async event => {
+    const handleFormSubmit = event => {
         event.preventDefault();
-
-        if (password != confirmPassword) {
-            const err = ['Passwords Don\'t match'];
-            setErrors(err);
-            return;
-        }
-
-        try {
-            const { user } = await auth.createUserWithEmailAndPassword(email, password);
-            await handleUserProfile(user, { displayName });
-            resetForm();
-            props.history.push('/');
-        } catch (err) {
-            //console.log(err);
-        }
+        dispatch(signUpUser({
+            displayName,
+            email,
+            password,
+            confirmPassword
+        }));
     }
 
     return (

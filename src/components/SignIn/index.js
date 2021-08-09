@@ -1,28 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInUser, signInWithGoogle, resetAllAuthForms } from './../../redux/User/user.actions';
 import './styles.scss';
 
-import { auth, signInWithGoogle } from './../../firebase/utils';
+const mapState = ({ user }) => ({
+    signInSuccess: user.signInSuccess
+})
 
 const SignIn = props => {
+    const { signInSuccess } = useSelector(mapState);
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        if (signInSuccess) {
+            resetForm();
+            dispatch(resetAllAuthForms());
+            props.history.push('/');
+        }
+    }, [signInSuccess])
 
     const resetForm = () => {
         setEmail('');
         setPassword('');
     }
 
-    const handleSubmit = async e => {
+    const handleSubmit = e => {
         e.preventDefault();
+        dispatch(signInUser({ email, password }));
+    }
 
-        try {
-            await auth.signInWithEmailAndPassword(email, password);
-            resetForm();
-            props.history.push('/');
-        } catch (err) {
-            //console.log(err);
-        }
+    const handleGoogleSignIn = () => {
+        dispatch(signInWithGoogle());
     }
 
     return (
@@ -53,11 +64,11 @@ const SignIn = props => {
                     <div className="card flex-grow-1 mb-md-0">
                         <div className="card-body">
                             <div>
-                                <button onClick={signInWithGoogle} className="btn btn-primary mt-4">
+                                <button onClick={handleGoogleSignIn} className="btn btn-primary mt-4">
                                     Sign in with Google
                                     </button>
                                 <br />
-                                <button onClick={signInWithGoogle} className="btn btn-primary mt-4">
+                                <button onClick={handleGoogleSignIn} className="btn btn-primary mt-4">
                                     Sign in with Facebook
                                     </button>
                             </div>
