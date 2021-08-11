@@ -1,0 +1,56 @@
+$sidebar-bg-color: #ffd333;
+$submenu-bg-color-collapsed: rgba(29, 29, 29, 0.95);
+$sidebar-color: #56464d;
+$highlight-color: #000;
+$icon-bg-color: rgba(255, 233, 153, 1);
+$icon-size: 35px;
+
+@import '~react-pro-sidebar/dist/scss/styles.scss';
+
+#header {
+position: fixed;
+width: 270px;
+height: 100%;
+z-index: 1;
+}
+#header .pro-sidebar {
+height: 100vh;
+}
+.closemenu {
+cursor: pointer;
+padding: 5px;
+float: right;
+font-size: 18px;
+}
+
+.pro-sidebar-inner {
+background-color: rgb(219, 215, 215);
+box-shadow: 0.5px 0.866px 2px 0px rgba(0, 0, 0, 0.15);
+}
+.pro-sidebar-inner .pro-sidebar-layout {
+overflow-y: hidden;
+}
+
+.logotext {
+    padding: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pro-sidebar-inner .pro-sidebar-layout ul {
+padding: 0 5px;
+}
+.pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item {
+font-weight: bold;
+}
+
+@media only screen and (max-width: 720px) {
+html {
+    overflow: hidden;
+}
+}

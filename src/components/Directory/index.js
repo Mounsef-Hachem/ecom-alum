@@ -10,7 +10,6 @@ import Slide3 from './../../assets/slide-3.jpg';
 const Directory = props => {
     return (
         <div className="directory">
-            <div className="container">
                 <div className="slide-container">
                     <Slide>
                         <div className="item">
@@ -60,7 +59,6 @@ const Directory = props => {
                         </div>
                     </Slide>
                 </div>
-            </div>
         </div>
     );
 };

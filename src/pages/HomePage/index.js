@@ -4,9 +4,9 @@ import './styles.scss';
 
 const HomePage = props => {
     return (
-        <section className="homepage">
+        <div className="container">
             <Directory />
-        </section>
+        </div>
     );
 };
 

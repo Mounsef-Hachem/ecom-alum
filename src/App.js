@@ -16,7 +16,10 @@ import Recovery from './pages/Recovery';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 
+import AdminProducts from './pages/AdminProducts';
+
 import MainLayout from './layouts/MainLayout';
+import AdminLayout from './layouts/AdminLayout';
 
 
 
@@ -58,11 +61,18 @@ const App = props => {
             </MainLayout>
           </WithAuth>
         )} />
-        <Route path="/admin" render={() => (
+        <Route exact path="/admin" render={() => (
           <WithAdminAuth>
-            <MainLayout>
+            <AdminLayout>
               <Admin />
-            </MainLayout>
+            </AdminLayout>
+          </WithAdminAuth>
+        )} />
+        <Route path="/admin/products" render={() => (
+          <WithAdminAuth>
+            <AdminLayout>
+              <AdminProducts />
+            </AdminLayout>
           </WithAdminAuth>
         )} />
       </Switch>

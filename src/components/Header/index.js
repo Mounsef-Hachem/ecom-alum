@@ -71,7 +71,7 @@ const Header = props => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <a><span onClick={() => signOut()}>Logout</span></a>
+                                    <Link to=""><span onClick={() => signOut()}>Logout</span></Link>
                                 </li>
                             </ul>
                         )}
