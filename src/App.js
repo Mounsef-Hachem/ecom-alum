@@ -10,11 +10,13 @@ import WithAuth from './hoc/withAuth';
 import WithAdminAuth from './hoc/withAdminAuth';
 
 import HomePage from './pages/HomePage';
+import Search from './pages/Search';
 import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Recovery from './pages/Recovery';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
+import ProductDetails from './pages/ProductDetails';
 
 import AdminProducts from './pages/AdminProducts';
 
@@ -47,6 +49,21 @@ const App = props => {
         <Route path="/login" render={() => (
           <MainLayout >
             <Login />
+          </MainLayout>
+        )} />
+        <Route exact path="/search" render={() => (
+          <MainLayout>
+            <Search />
+          </MainLayout>
+        )} />
+        <Route path="/search/:filterType" render={() => (
+          <MainLayout>
+            <Search />
+          </MainLayout>
+        )} />
+        <Route path="/product/:productID" render={() => (
+          <MainLayout>
+            <ProductDetails />
           </MainLayout>
         )} />
         <Route path="/recovery" render={() => (

@@ -2,17 +2,20 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './styles.scss';
 import { Link } from 'react-router-dom';
-import {signOutUserStart} from './../../redux/User/user.actions';
+import { signOutUserStart } from './../../redux/User/user.actions';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { selectCartItemsCount } from '../../redux/Cart/cart.selectors';
 
 import Logo from './../../assets/logo.png';
 
-const mapState = ({ user }) => ({
-    currentUser: user.currentUser
+const mapState = (state) => ({
+    currentUser: state.user.currentUser,
+    totalNumberCartItems: selectCartItemsCount(state)
 });
 
 const Header = props => {
     const dispatch = useDispatch();
-    const { currentUser } = useSelector(mapState);
+    const { currentUser, totalNumberCartItems } = useSelector(mapState);
 
     const signOut = () => {
         dispatch(signOutUserStart());
@@ -35,7 +38,7 @@ const Header = props => {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/">
+                                <Link to="/search">
                                     <span>Products</span>
                                 </Link>
                             </li>
@@ -47,39 +50,46 @@ const Header = props => {
                         </ul>
                     </div>
                     <div className="nav-indicators">
+                        <div className="indicator">
+                            <Link className="indicator-button">
+                                <span className="indicator-area">
+                                    <AiOutlineShoppingCart />
+                                    <span className="indicator-value">
+                                        {totalNumberCartItems}
+                                    </span>
+                                </span>
+                            </Link>
+                        </div>
 
-                        {!currentUser && (
-                            <ul>
+                        <ul>
+                            {!currentUser && [
                                 <li>
                                     <Link to="/registration">
                                         <span>Register</span>
                                     </Link>
-                                </li>
+                                </li>,
                                 <li>
                                     <Link to="/login">
                                         <span>Login</span>
                                     </Link>
                                 </li>
-                            </ul>
-                        )}
+                            ]}
 
-                        {currentUser && (
-                            <ul>
+                            {currentUser && [
                                 <li>
                                     <Link to="/dashboard">
                                         <span>My Account</span>
                                     </Link>
-                                </li>
+                                </li>,
                                 <li>
                                     <Link to=""><span onClick={() => signOut()}>Logout</span></Link>
                                 </li>
-                            </ul>
-                        )}
-
+                            ]}
+                        </ul>
                     </div>
                 </div>
             </div>
-        </header>
+        </header >
     );
 };
 

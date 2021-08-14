@@ -1,56 +1,58 @@
-import React, {useState} from "react";
-import { Link } from "react-router-dom";
-import { BsFillTrashFill, BsPencilSquare, BsFillEyeFill } from "react-icons/bs";
-import DeleteProduct from './../../components/DeleteProduct';
+import React from 'react';
+import './styles.scss';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '../../redux/Cart/cart.actions';
 
-const ProductCard = ({ product }) => {
-  const [deleteAlert, setDeleteAlert] = useState(false);
+const ProductCard = (product) => {
+    const dispatch = useDispatch();
 
-  const { productCategory,
-    productName,
-    productThumbnail,
-    productPrice,
-    productDesc,
-    documentID
-  } = product;
+    const {
+        documentID,
+        productThumbnail,
+        productName,
+        productPrice
+    } = product;
 
-  const showAlertDelete=()=>{
-    setDeleteAlert(true);
-  }
+    if (!documentID || !productThumbnail || !productName || typeof productPrice === 'undefined') return null;
 
-  return (
-    <div className="card">
-      {deleteAlert && <DeleteProduct setDeleteAlert={setDeleteAlert} idProduct={documentID} />}
-      <img
-        style={{ height: "250px" }}
-        src="https://image.made-in-china.com/2f0j10IYRfDTvPoEou/-Fen-tre-d-039-aluminium-bande-m-t-o-.jpg"
-        alt=" "
-      />
-      <div className="m-2">
-        <h2>{productName}</h2>
-        <span className="desc" dangerouslySetInnerHTML={{ __html: productDesc }} />
-        <div className="row">
-            <div className="col-9">
-              <h4>Prix : {productPrice} DH</h4>
+    const handleAddToCart = (product) => {
+        if (!product) return;
+
+        dispatch(
+            addProduct(product)
+        );
+    };
+
+    return (
+        <div className="product-card">
+
+            <div className="product-card-image">
+                <Link to={`/product/${documentID}`} className="product-image-body">
+                    <img
+                        src="https://image.made-in-china.com/2f0j10IYRfDTvPoEou/-Fen-tre-d-039-aluminium-bande-m-t-o-.jpg"
+                        className="product-image-img" />
+                </Link>
             </div>
-            <div className="col-3">
-              {/* <Link
-                className="btn btn-warning mr-1 mb-1"
-                to={`/editProduit/${idCategorie}/${prod.id}`}
-              >
-                <BsPencilSquare />
-              </Link> */}
-             <button
-                className="btn btn-danger mr-1 mb-1"
-                onClick={()=>showAlertDelete()}
-              >
-                <BsFillTrashFill />
-              </button>
+            <div className="product-card-info">
+                <div className="product-card-name">
+                    <Link to={`/product/${documentID}`}>
+                        {productName}
+                    </Link>
+                </div>
             </div>
-          </div>
+            <div className="product-card-actions">
+                <div className="product-card-price">
+                    {productPrice} DHs
+                </div>
+                <div className="product-card-buttons">
+                    <button onClick={() => handleAddToCart(product)} type="button" className="btn btn-primary product-card-addtocart">
+                        Add To Cart
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
-  );
+    );
 };
 
 export default ProductCard;

@@ -1,5 +1,5 @@
 .header {
-  height: 5.4rem;
+  height: 6.4rem;
   background: #ffd333;
   box-shadow: 0 1px rgba(0, 0, 0, 0.04), inset 0 -1px rgba(0, 0, 0, 0.04);
   color: #3d464d;
@@ -35,6 +35,51 @@
         display: flex;
         height: 100%;
         margin-left: auto;
+      }
+
+      .indicator {
+        display: flex;
+        color: none;
+
+        .indicator-button {
+          display: flex;
+          align-items: center;
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          padding: 0;
+          color: inherit;
+          fill: currentColor;
+
+          .indicator-area {
+            background: transparent;
+            transition: background-color 0.2s;
+            border-radius: 2px;
+            height: 42px;
+            padding: 0 14px;
+            display: flex;
+            align-items: center;
+            &:hover {
+              background: hsla(0, 0%, 100%, 0.5);
+              transition-duration: 0.1s;
+              box-shadow: none;
+            }
+
+            .indicator-value {
+              margin-left: -5px;
+              margin-right: -8px;
+              height: 15px;
+              font-size: 10px;
+              padding: 0 5px;
+              border-radius: 1000px;
+              position: relative;
+              top: -11px;
+              background: #fff;
+              color: #3d464d;
+              font-weight: 700;
+            }
+          }
+        }
       }
 
       .nav-indicators,
@@ -80,6 +125,7 @@
             span:hover {
               background: hsla(0, 0%, 100%, 0.5);
               box-shadow: none;
+              transition-duration: 0.1s;
             }
           }
         }
