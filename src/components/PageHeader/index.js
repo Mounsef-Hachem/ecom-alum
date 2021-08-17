@@ -8,7 +8,7 @@ const PageHeader = ({ title }) => {
             <div className="page-header-container container">
                 <div className="page-header-breadcrumb">
                     <Breadcrumb>
-                        <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
+                        <Breadcrumb.Item href="/home">Home</Breadcrumb.Item>
                         <Breadcrumb.Item active>This</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>

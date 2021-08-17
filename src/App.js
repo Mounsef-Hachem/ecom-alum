@@ -17,8 +17,9 @@ import Recovery from './pages/Recovery';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 import ProductDetails from './pages/ProductDetails';
-
+import Cart from './pages/Cart';
 import AdminProducts from './pages/AdminProducts';
+import Payment from './pages/Payment';
 
 import MainLayout from './layouts/MainLayout';
 import AdminLayout from './layouts/AdminLayout';
@@ -65,6 +66,18 @@ const App = props => {
           <MainLayout>
             <ProductDetails />
           </MainLayout>
+        )} />
+        <Route path="/cart" render={() => (
+          <MainLayout>
+            <Cart />
+          </MainLayout>
+        )} />
+        <Route path="/payment" render={() => (
+          <WithAuth>
+            <MainLayout>
+              <Payment />
+            </MainLayout>
+          </WithAuth>
         )} />
         <Route path="/recovery" render={() => (
           <MainLayout>

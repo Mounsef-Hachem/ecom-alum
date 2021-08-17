@@ -56,7 +56,7 @@ const SignIn = props => {
                                 </div>
                                 <button type="submit" className="btn btn-primary mt-4">
                                     Login
-                                    </button>
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -64,14 +64,13 @@ const SignIn = props => {
                 <div className="col-md-6 d-flex flex-column">
                     <div className="card flex-grow-1 mb-md-0">
                         <div className="card-body">
-                            <div>
-                                <button onClick={handleGoogleSignIn} className="btn btn-primary mt-4">
+                            <h3 className="card-title ">Don't have an account?</h3>
+                            <div className="row">
+                                <button onClick={handleGoogleSignIn} style={{ backgroundColor: "red" }} className="btn btn-primary mt-4 btn-block">
                                     Sign in with Google
-                                    </button>
-                                <br />
-                                <button onClick={handleGoogleSignIn} className="btn btn-primary mt-4">
-                                    Sign in with Facebook
-                                    </button>
+                                </button>
+                                <div className="text-center mt-4">Or</div>
+                                <Link className="btn btn-primary mt-4 btn-block" to="/register">Create an account</Link>
                             </div>
                         </div>
                     </div>

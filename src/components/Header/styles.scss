@@ -1,5 +1,5 @@
 .header {
-  height: 6.4rem;
+  height: 64px;
   background: #ffd333;
   box-shadow: 0 1px rgba(0, 0, 0, 0.04), inset 0 -1px rgba(0, 0, 0, 0.04);
   color: #3d464d;
@@ -20,7 +20,6 @@
 
         img {
           display: block;
-          width: 100%;
           margin: 0;
         }
       }

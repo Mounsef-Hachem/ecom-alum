@@ -51,9 +51,9 @@ const Header = props => {
                     </div>
                     <div className="nav-indicators">
                         <div className="indicator">
-                            <Link className="indicator-button">
+                            <Link to="/cart" className="indicator-button">
                                 <span className="indicator-area">
-                                    <AiOutlineShoppingCart />
+                                    <AiOutlineShoppingCart size={20} />
                                     <span className="indicator-value">
                                         {totalNumberCartItems}
                                     </span>
