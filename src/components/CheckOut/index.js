@@ -27,8 +27,12 @@ const CheckOut = () => {
     }
 
     const handleAddProduct = (product) => {
+        const item = {
+            product: product,
+            amount: 1
+        }
         dispatch(
-            addProduct(product)
+            addProduct(item)
         );
     }
 
@@ -72,7 +76,7 @@ const CheckOut = () => {
                                                 <div className="product-image">
                                                     <Link to={`/product/${item.documentID}`} className="product-image-body">
                                                         <img
-                                                            src="https://image.made-in-china.com/2f0j10IYRfDTvPoEou/-Fen-tre-d-039-aluminium-bande-m-t-o-.jpg"
+                                                            src={item.productImages[0]}
                                                             className="product-image-img" />
                                                     </Link>
                                                 </div>

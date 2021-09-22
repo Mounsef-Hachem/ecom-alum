@@ -1,9 +1,9 @@
 export const existingCartItem = ({
     prevCartItems,
-    nextCartItem
+    product
 }) => {
     return prevCartItems.find(
-        cartItem => cartItem.documentID === nextCartItem.documentID
+        cartItem => cartItem.documentID === product.documentID
     );
 };
 
@@ -11,14 +11,14 @@ export const handleAddToCart = ({
     prevCartItems,
     nextCartItem
 }) => {
-    const quantityIncrement = 1;
-    const cardItemExists = existingCartItem({ prevCartItems, nextCartItem });
+    const { product, amount } = nextCartItem;
+    const cardItemExists = existingCartItem({ prevCartItems, product });
 
     if (cardItemExists) {
-        return prevCartItems.map(cartItem => cartItem.documentID == nextCartItem.documentID
+        return prevCartItems.map(cartItem => cartItem.documentID == product.documentID
             ? {
                 ...cartItem,
-                quantity: cartItem.quantity + quantityIncrement
+                quantity: cartItem.quantity + amount
             } : cartItem
         );
     }
@@ -26,8 +26,8 @@ export const handleAddToCart = ({
     return [
         ...prevCartItems,
         {
-            ...nextCartItem,
-            quantity: quantityIncrement
+            ...product,
+            quantity: amount
         }
     ];
 };

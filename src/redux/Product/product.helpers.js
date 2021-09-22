@@ -1,4 +1,4 @@
-import { firestore } from './../../firebase/utils';
+import { firestore, storage } from './../../firebase/utils';
 
 export const handleAddProduct = product => {
     return new Promise((resolve, reject) => {
@@ -21,7 +21,6 @@ export const handleFetchProducts = ({ filterType, startAfterDoc, persistProducts
 
         let ref = firestore.collection('products').orderBy('createdDate').limit(pageSize);
 
-        console.log("test" + filterType);
         if (filterType) ref = ref.where('productCategory', '==', filterType);
         if (startAfterDoc) ref = ref.startAfter(startAfterDoc);
         ref
@@ -48,19 +47,43 @@ export const handleFetchProducts = ({ filterType, startAfterDoc, persistProducts
 
 export const handleDeleteProduct = (documentID) => {
     return new Promise((resolve, reject) => {
-        firestore
-            .collection('products')
-            .doc(documentID)
-            .delete()
-            .then(() => {
-                resolve();
-            })
-            .catch(err => {
-                reject(err);
-            })
+        var doc = firestore.collection('products').doc(documentID);
+        doc
+            .get()
+            .then(snapshot => {
+                if (snapshot.exists) {
+                    var images = snapshot.data().productImages;
+                    if (Array.isArray(images) && images.length > 1) {
+                        images.forEach((image) => {
+                            deleteFromFirebase(image);
+                        })
+                    }
+
+                    doc
+                        .delete()
+                        .then(() => {
+                            resolve();
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                }
+            });
     });
 
 }
+
+const deleteFromFirebase = (url) => {
+    let pictureRef = storage.refFromURL(url);
+
+    pictureRef.delete()
+        .then(() => {
+            console.log(pictureRef + " deleted");
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
 
 export const handleFetchProduct = (productID) => {
     return new Promise((resolve, reject) => {

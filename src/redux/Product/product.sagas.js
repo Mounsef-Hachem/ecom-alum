@@ -6,6 +6,7 @@ import { handleAddProduct, handleFetchProducts, handleDeleteProduct, handleFetch
 
 export function* addProduct({ payload }) {
     try {
+        console.log('test');
         const timeStamp = new Date();
         yield handleAddProduct({
             ...payload,
@@ -15,7 +16,7 @@ export function* addProduct({ payload }) {
 
         yield put(fetchProductsStart());
     } catch (err) {
-        //console.log(err);
+        console.log(err);
     }
 }
 

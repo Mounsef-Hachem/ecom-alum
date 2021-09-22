@@ -1,25 +1,27 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import './styles.scss';
+import PageHeader from './../../components//PageHeader';
 
 import AdminProfile from './../../components/AdminProfile';
 
 const mapState = ({ user }) => ({
     currentUser: user.currentUser
 })
-  
+
 
 const Admin = props => {
 
     const { currentUser } = useSelector(mapState);
 
     const configAdminProfile = {
-      currentUser
+        currentUser
     }
 
-    return(
+    return (
         <div className="container">
-            <AdminProfile {...configAdminProfile}/>
+            <PageHeader title={"Dashboard"} />
+            <AdminProfile {...configAdminProfile} />
         </div>
     )
 }

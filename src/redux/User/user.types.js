@@ -10,6 +10,8 @@ const userTypes = {
     GOOGLE_SIGN_IN_START: 'GOOGLE_SIGN_IN_START',
     USER_ERROR: 'USER_ERROR',
     RESET_USER_STATE: 'RESET_USER_STATE',
+    FETCH_USERS_START: 'FETCH_USERS_START',
+    SET_USERS: 'SET_USERS'
 };
 
 export default userTypes;

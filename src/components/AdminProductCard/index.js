@@ -8,7 +8,7 @@ const AdminProductCard = ({ product }) => {
 
   const { productCategory,
     productName,
-    productThumbnail,
+    productImages,
     productPrice,
     productDesc,
     documentID
@@ -23,7 +23,7 @@ const AdminProductCard = ({ product }) => {
       {deleteAlert && <DeleteProduct setDeleteAlert={setDeleteAlert} idProduct={documentID} />}
       <img
         style={{ height: "250px" }}
-        src="https://image.made-in-china.com/2f0j10IYRfDTvPoEou/-Fen-tre-d-039-aluminium-bande-m-t-o-.jpg"
+        src={productImages[0]}
         alt=" "
       />
       <div className="m-2">

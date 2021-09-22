@@ -49,3 +49,12 @@ export const resetUserState = () => ({
 export const googleSignInStart = () => ({
     type: userTypes.GOOGLE_SIGN_IN_START
 });
+
+export const fetchUsersStart = () => ({
+    type: userTypes.FETCH_USERS_START
+});
+
+export const setUsers = (users) => ({
+    type: userTypes.SET_USERS,
+    payload: users
+})

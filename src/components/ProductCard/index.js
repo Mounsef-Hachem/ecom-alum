@@ -9,18 +9,21 @@ const ProductCard = (product) => {
 
     const {
         documentID,
-        productThumbnail,
+        productImages,
         productName,
         productPrice
     } = product;
 
-    if (!documentID || !productThumbnail || !productName || typeof productPrice === 'undefined') return null;
+    if (!documentID || !productImages || !productName || typeof productPrice === 'undefined') return null;
 
     const handleAddToCart = (product) => {
         if (!product) return;
-
+        const item = {
+            product: product,
+            amount: 1
+        }
         dispatch(
-            addProduct(product)
+            addProduct(item)
         );
     };
 
@@ -30,7 +33,7 @@ const ProductCard = (product) => {
             <div className="product-card-image">
                 <Link to={`/product/${documentID}`} className="product-image-body">
                     <img
-                        src="https://image.made-in-china.com/2f0j10IYRfDTvPoEou/-Fen-tre-d-039-aluminium-bande-m-t-o-.jpg"
+                        src={productImages[0]}
                         className="product-image-img" />
                 </Link>
             </div>

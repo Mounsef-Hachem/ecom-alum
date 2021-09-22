@@ -3,19 +3,20 @@ import userTypes from './user.types';
 const INITIAL_STATE = {
     currentUser: null,
     resetPasswordSuccess: false,
-    userErr: []
+    userErr: [],
+    users: []
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case userTypes.SIGN_IN_SUCCESS:
-            return{
+            return {
                 ...state,
                 currentUser: action.payload,
                 userErr: []
             }
         case userTypes.RESET_PASSWORD_SUCCESS:
-            return{
+            return {
                 ...state,
                 resetPasswordSuccess: action.payload
             }
@@ -26,9 +27,14 @@ const userReducer = (state = INITIAL_STATE, action) => {
             }
         case userTypes.RESET_USER_STATE:
         case userTypes.SIGN_OUT_USER_SUCCESS:
-            return{
+            return {
                 ...state,
                 ...INITIAL_STATE
+            }
+        case userTypes.SET_USERS:
+            return {
+                ...state,
+                users: action.payload
             }
         default:
             return state;

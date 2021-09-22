@@ -4,7 +4,7 @@ import AdminSideBar from './../components/AdminSideBar';
 const AdminLayout = props => {
     return (
         <div style={
-            {display: "flex", position: "relative", height: "calc(100% - 32px)"}
+            { display: "flex", position: "relative", height: "calc(100% - 32px)" }
         }
         >
             <AdminSideBar />

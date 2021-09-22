@@ -1,5 +1,4 @@
 import productTypes from './product.types';
-import roductTypes from './product.types';
 
 const INITIAL_STATE = {
     products: [],

@@ -5,14 +5,16 @@ import { fetchProductsStart } from '../../redux/Product/product.actions';
 import ProductCard from '../ProductCard';
 import Pagination from '../Pagination';
 import './styles.scss';
+import { fetchCategoriesStart } from '../../redux/Categories/categories.actions';
 
-const mapState = ({ productsData }) => ({
-    products: productsData.products
+const mapState = ({ productsData, categoriesData }) => ({
+    products: productsData.products,
+    categories: categoriesData.categories.data
 });
 
 const ProductsResults = () => {
     const dispatch = useDispatch();
-    const { products } = useSelector(mapState);
+    const { products, categories } = useSelector(mapState);
     const history = useHistory();
     const { filterType } = useParams();
 
@@ -23,6 +25,12 @@ const ProductsResults = () => {
             fetchProductsStart({ filterType })
         );
     }, [filterType]);
+
+    useEffect(() => {
+        dispatch(
+            fetchCategoriesStart()
+        );
+    }, []);
 
     const handleFilter = (e) => {
         const nextFilter = e.target.value;
@@ -56,18 +64,14 @@ const ProductsResults = () => {
                         <div className="view-options-filters">
                             <label htmlFor="view-options-filter">Filter By</label>
                             <select value={filterType} onChange={handleFilter} id="view-options-filter" className="form-select form-select-sm">
-                                <option value="">
+                                <option value="" disabled hidden selected>
                                     Show All
                                 </option>
-                                <option value="Category1">
-                                    Cat1
-                                </option>
-                                <option value="Category2">
-                                    Cat2
-                                </option>
-                                <option value="Category3">
-                                    Cat3
-                                </option>
+                                {(Array.isArray(categories) && categories.length > 0) && categories.map((category, index) => {
+                                    return (
+                                        <option key={index} value={category.categoryName}>{category.categoryName}</option>
+                                    )
+                                })}
                             </select>
                         </div>
                     </div>
@@ -75,8 +79,8 @@ const ProductsResults = () => {
                 <div className="products-view-list products-list">
                     <div className="product-list" >
                         {data.map((product, pos) => {
-                            const { productThumbnail, productName, productPrice } = product;
-                            if (!productThumbnail || !productName || typeof productPrice === 'undefined') return null;
+                            const { productImages, productName, productPrice } = product;
+                            if (!productImages || !productName || typeof productPrice === 'undefined') return null;
 
                             const configProduct = {
                                 ...product

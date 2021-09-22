@@ -77,7 +77,7 @@ const Header = props => {
 
                             {currentUser && [
                                 <li>
-                                    <Link to="/dashboard">
+                                    <Link to="/account">
                                         <span>My Account</span>
                                     </Link>
                                 </li>,

@@ -1,0 +1,51 @@
+.features {
+    margin-top: -36px;
+}
+
+.features-list {
+    border: none;
+    border-radius: 2px;
+    display: flex;
+}
+
+.features-item {
+    flex-direction: column;
+    background: #f7f7f7;
+    border-radius: 3px;
+    text-align: center;
+    align-items: center;
+    padding: 30px 28px 28px;
+    flex-basis: 0;
+    flex-grow: 1;
+    display: flex;
+}
+
+.features-divider {
+    width: 14px;
+    flex-shrink: 0;
+}
+
+.features-icon {
+    svg {
+        flex-shrink: 0;
+        width: 48px;
+        height: 48px;
+        fill: #ffd333;
+        margin-bottom: 12px;
+        display: block;
+    }
+}
+
+.features-content {
+    padding-top: 2px;
+}
+
+.block-features-title {
+    font-size: 17px;
+    line-height: 24px;
+    font-weight: 700;
+}
+
+.block-features-subtitle {
+    font-size: 14px;
+}
