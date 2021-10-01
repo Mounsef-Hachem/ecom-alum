@@ -39,6 +39,7 @@ const PaymentDetails = () => {
     const [recipientLastName, setRecipientLastName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState()
     const [onCardFullName, setOnCardFullName] = useState("");
+    const [checkoutMethod, setCheckoutMethod] = useState("cash");
 
     useEffect(() => {
         if (itemCount < 1) {
@@ -51,57 +52,82 @@ const PaymentDetails = () => {
         evt.preventDefault();
         const cardElement = elemnts.getElement('card');
 
-        if (
-            !shippingAdress.line1 || !shippingAdress.city || !shippingAdress.state || !shippingAdress.postal_code || !shippingAdress.country ||
-            !billingAdress.line1 || !billingAdress.city || !billingAdress.state || !billingAdress.postal_code || !billingAdress.country ||
-            !recipientFirstName || !recipientLastName || !onCardFullName
+        if (checkoutMethod == "bank") {
+            if (
+                !shippingAdress.line1 || !shippingAdress.city || !shippingAdress.state || !shippingAdress.postal_code || !shippingAdress.country ||
+                !billingAdress.line1 || !billingAdress.city || !billingAdress.state || !billingAdress.postal_code || !billingAdress.country ||
+                !recipientFirstName || !recipientLastName || !onCardFullName
 
-        ) return;
+            ) return;
 
-        apiInstance.post('/payment/create', {
-            amount: total * 100,
-            shipping: {
-                name: recipientFirstName + " " + recipientLastName,
-                phone: phoneNumber,
-                address: {
-                    ...shippingAdress
-                }
-            }
-        }).then(({ data: clientSecret }) => {
-            stripe.createPaymentMethod({
-                type: 'card',
-                card: cardElement,
-                billing_details: {
-                    name: onCardFullName,
+            apiInstance.post('/payment/create', {
+                amount: total * 100,
+                shipping: {
+                    name: recipientFirstName + " " + recipientLastName,
+                    phone: phoneNumber,
                     address: {
-                        ...billingAdress
+                        ...shippingAdress
                     }
                 }
-
-            }).then(({ paymentMethod }) => {
-                stripe.confirmCardPayment(clientSecret, {
-                    payment_method: paymentMethod.id
-                })
-                    .then(({ paymentIntent }) => {
-                        const configOrder = {
-                            orderTotal: total,
-                            orderItems: cartItems.map(item => {
-                                const { documentID, productImages, productName, productPrice, quantity } = item;
-
-                                return { documentID, productImages, productName, productPrice, quantity }
-                            }),
-                            phone: phoneNumber,
-                            recipientName: recipientFirstName + " " + recipientLastName,
-                            shippingAdress: { ...shippingAdress },
-                            billingAdress: { ...billingAdress }
+            }).then(({ data: clientSecret }) => {
+                stripe.createPaymentMethod({
+                    type: 'card',
+                    card: cardElement,
+                    billing_details: {
+                        name: onCardFullName,
+                        address: {
+                            ...billingAdress
                         }
-                        dispatch(saveOrderHistory(configOrder));
-                    })
-            }).catch(error => {
-                console.log(error);
-            })
-        });
+                    }
 
+                }).then(({ paymentMethod }) => {
+                    stripe.confirmCardPayment(clientSecret, {
+                        payment_method: paymentMethod.id
+                    })
+                        .then(({ paymentIntent }) => {
+                            const configOrder = {
+                                orderTotal: total,
+                                orderItems: cartItems.map(item => {
+                                    const { documentID, productImages, productName, productPrice, quantity } = item;
+
+                                    return { documentID, productImages, productName, productPrice, quantity }
+                                }),
+                                phone: phoneNumber,
+                                method: checkoutMethod,
+                                status: "On hold",
+                                recipientName: recipientFirstName + " " + recipientLastName,
+                                shippingAdress: { ...shippingAdress },
+                                billingAdress: { ...billingAdress }
+                            }
+                            dispatch(saveOrderHistory(configOrder));
+                        })
+                }).catch(error => {
+                    console.log(error);
+                })
+            });
+        } else if (checkoutMethod == "cash") {
+            console.log("test");
+            if (
+                !shippingAdress.line1 || !shippingAdress.city || !shippingAdress.state || !shippingAdress.postal_code || !shippingAdress.country ||
+                !recipientFirstName || !recipientLastName
+
+            ) return;
+
+            const configOrder = {
+                orderTotal: total,
+                orderItems: cartItems.map(item => {
+                    const { documentID, productImages, productName, productPrice, quantity } = item;
+
+                    return { documentID, productImages, productName, productPrice, quantity }
+                }),
+                phone: phoneNumber,
+                method: checkoutMethod,
+                status: "On hold",
+                recipientName: recipientFirstName + " " + recipientLastName,
+                shippingAdress: { ...shippingAdress }
+            }
+            dispatch(saveOrderHistory(configOrder));
+        }
     }
 
     const handleShipping = e => {
@@ -203,68 +229,73 @@ const PaymentDetails = () => {
                                         <input required value={shippingAdress.postal_code} onChange={e => handleShipping(e)} name="postal_code" id="checkout-postal" type="text" placeholder="Postal Code" className="form-control" />
                                     </div>
                                 </div>
-                                <div className="card-divider"></div>
-                                <div className="card-body">
-                                    <h3 className="card-title">Billing address</h3>
-                                    <div className="form-group">
-                                        <label htmlFor="checkout-fullname">
-                                            Full Name
-                                        </label>
-                                        <input required value={onCardFullName} onChange={(e) => setOnCardFullName(e.target.value)} name="onCardFullName" id="checkout-fullname" type="text" placeholder="Full Name" className="form-control" />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="checkout-line1">
-                                            Line 1
-                                        </label>
-                                        <input required value={billingAdress.line1} onChange={e => handleBilling(e)} name="line1" id="checkout-line1" type="text" placeholder="Line 1" className="form-control" />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="checkout-line2">
-                                            Line 2
-                                            <span className="text-muted">(Optional)</span>
-                                        </label>
-                                        <input value={billingAdress.line2} onChange={e => handleBilling(e)} name="line2" id="checkout-line2" type="text" placeholder="Line 2" className="form-control" />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="checkout-country">
-                                            Country
-                                        </label>
-                                        <CountryDropdown
-                                            required
-                                            id="checkout-country"
-                                            className="form-select"
-                                            valueType="short"
-                                            value={billingAdress.country}
-                                            name="country"
-                                            onChange={val => handleBilling({ target: { name: 'country', value: val } })}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="checkout-city">
-                                            City
-                                        </label>
-                                        <input required value={billingAdress.city} onChange={e => handleBilling(e)} name="city" id="checkout-city" type="text" placeholder="City" className="form-control" />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="checkout-state">
-                                            State
-                                        </label>
-                                        <input required value={billingAdress.state} onChange={e => handleBilling(e)} name="state" id="checkout-state" type="text" placeholder="State" className="form-control" />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="checkout-postal">
-                                            Postal Code
-                                        </label>
-                                        <input required value={billingAdress.postal_code} onChange={e => handleBilling(e)} name="postal_code" id="checkout-postal" type="text" placeholder="Postal Code" className="form-control" />
-                                    </div>
-                                </div>
-                                <div className="card-divider"></div>
-                                <div className="card-body">
-                                    <h3 className="card-title">Card details</h3>
-                                    <CardElement
-                                        options={configCardElement}
-                                    />
-                                </div>
+                                {checkoutMethod === "bank" && (
+                                    <div>
+                                        <div className="card-divider"></div>
+                                        <div className="card-body">
+                                            <h3 className="card-title">Billing address</h3>
+                                            <div className="form-group">
+                                                <label htmlFor="checkout-fullname">
+                                                    Full Name
+                                                </label>
+                                                <input required value={onCardFullName} onChange={(e) => setOnCardFullName(e.target.value)} name="onCardFullName" id="checkout-fullname" type="text" placeholder="Full Name" className="form-control" />
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="checkout-line1">
+                                                    Line 1
+                                                </label>
+                                                <input required value={billingAdress.line1} onChange={e => handleBilling(e)} name="line1" id="checkout-line1" type="text" placeholder="Line 1" className="form-control" />
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="checkout-line2">
+                                                    Line 2
+                                                    <span className="text-muted">(Optional)</span>
+                                                </label>
+                                                <input value={billingAdress.line2} onChange={e => handleBilling(e)} name="line2" id="checkout-line2" type="text" placeholder="Line 2" className="form-control" />
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="checkout-country">
+                                                    Country
+                                                </label>
+                                                <CountryDropdown
+                                                    required
+                                                    id="checkout-country"
+                                                    className="form-select"
+                                                    valueType="short"
+                                                    value={billingAdress.country}
+                                                    name="country"
+                                                    onChange={val => handleBilling({ target: { name: 'country', value: val } })}
+                                                />
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="checkout-city">
+                                                    City
+                                                </label>
+                                                <input required value={billingAdress.city} onChange={e => handleBilling(e)} name="city" id="checkout-city" type="text" placeholder="City" className="form-control" />
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="checkout-state">
+                                                    State
+                                                </label>
+                                                <input required value={billingAdress.state} onChange={e => handleBilling(e)} name="state" id="checkout-state" type="text" placeholder="State" className="form-control" />
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="checkout-postal">
+                                                    Postal Code
+                                                </label>
+                                                <input required value={billingAdress.postal_code} onChange={e => handleBilling(e)} name="postal_code" id="checkout-postal" type="text" placeholder="Postal Code" className="form-control" />
+                                            </div>
+                                        </div>
+                                        <div className="card-divider"></div>
+                                        <div className="card-body">
+                                            <h3 className="card-title">Card details</h3>
+                                            <CardElement
+                                                options={configCardElement}
+                                            />
+                                        </div>
+                                    </div>)
+                                }
+
                             </div>
                         </div>
                         <div className="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
@@ -298,13 +329,13 @@ const PaymentDetails = () => {
                                             <li>
                                                 <label className="payment-methods__item-header">
                                                     <span className="payment-methods__item-radio input-radio">
-                                                        <input type="radio" name="checkout_payment_method" className="form-check-input" value="bank" />
+                                                        <input onChange={(e) => setCheckoutMethod(e.target.value)} type="radio" name="checkout_payment_method" className="form-check-input" value="bank" />
                                                     </span>
                                                     <span className="payment-methods__item-title">
                                                         Direct bank transfer
                                                     </span>
                                                 </label>
-                                                <div className="payment-methods__item-container">
+                                                <div className="payment-methods__item-container" style={{ height: checkoutMethod === "bank" ? 'auto' : '0' }}>
                                                     <div className="payment-methods__item-description text-muted">
                                                         Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
                                                     </div>
@@ -313,13 +344,13 @@ const PaymentDetails = () => {
                                             <li>
                                                 <label className="payment-methods__item-header">
                                                     <span className="payment-methods__item-radio input-radio">
-                                                        <input type="radio" name="checkout_payment_method" className="form-check-input" value="cash" />
+                                                        <input onChange={(e) => setCheckoutMethod(e.target.value)} defaultChecked type="radio" name="checkout_payment_method" className="form-check-input" value="cash" />
                                                     </span>
                                                     <span className="payment-methods__item-title">
                                                         Cash on delivery
                                                     </span>
                                                 </label>
-                                                <div className="payment-methods__item-container">
+                                                <div className="payment-methods__item-container" style={{ height: checkoutMethod === "cash" ? 'auto' : '0' }}>
                                                     <div className="payment-methods__item-description text-muted">
                                                         Pay with cash upon delivery.
                                                     </div>
@@ -329,7 +360,7 @@ const PaymentDetails = () => {
                                     </div>
                                     <div className="checkout-agree">
                                         <div className="form-check">
-                                            <input id="checkout-terms" type="checkbox" className="form-check-input" />
+                                            <input required id="checkout-terms" type="checkbox" className="form-check-input" />
                                             <label htmlFor="checkout-terms" className="form-check-label">
                                                 &nbsp;I have read and agree to the website&nbsp;
                                                 <a href="#" className="">

@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux';
 import React, { useEffect } from 'react';
 import { checkUserSession } from './redux/User/user.actions';
 
-import AdminToolbar from './components/AdminToolBar';
-
 import WithAuth from './hoc/withAuth';
 import WithAdminAuth from './hoc/withAdminAuth';
 
@@ -29,6 +27,7 @@ import Orders from './pages/Orders';
 import AdminCategories from './pages/AdminCategories';
 import AdminOrders from './pages/AdminOrders';
 import AdminUsers from './pages/AdminUsers';
+import ContactUs from './pages/ContactUs';
 
 
 
@@ -41,11 +40,15 @@ const App = props => {
 
   return (
     <div className="App">
-      <AdminToolbar />
       <Switch>
         <Route exact path="/" render={() => (
           <MainLayout >
             <HomePage />
+          </MainLayout>
+        )} />
+        <Route exact path="/contact" render={() => (
+          <MainLayout >
+            <ContactUs />
           </MainLayout>
         )} />
         <Route path="/registration" render={() => (

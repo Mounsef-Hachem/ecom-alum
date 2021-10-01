@@ -20,7 +20,7 @@ const ManageProducts = ({ products }) => {
         { title: 'Quantity', field: 'productQuantity' }
     ]);
 
-    const handleDeleteCategory = (oldData) => {
+    const handleDeleteProduct = (oldData) => {
         return new Promise((resolve, reject) => {
             dispatch(deleteProductStart(oldData.documentID));
             resolve();
@@ -42,7 +42,7 @@ const ManageProducts = ({ products }) => {
     return (
         <>
             <MaterialTable
-                title="Products"
+                title={`${Array.isArray(products) ? products.length : "0"} Products`}
                 columns={columns}
                 data={products}
                 actions={[
@@ -54,7 +54,7 @@ const ManageProducts = ({ products }) => {
                     }
                 ]}
                 editable={{
-                    onRowDelete: oldData => handleDeleteCategory(oldData)
+                    onRowDelete: oldData => handleDeleteProduct(oldData)
                 }}
                 options={{
                     detailPanelType: 'single',

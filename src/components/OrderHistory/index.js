@@ -26,11 +26,12 @@ const styles = {
 };
 
 const formatText = (columnName, columnValue, orderItems) => {
+    console.log(columnValue);
     switch (columnName) {
         case "orderTotal":
             return `${columnValue} Dhs for ${orderItems.length} item(s)`;
         case "orderCreatedDate":
-            return moment(columnValue.nano).format('DD/MM/YYYY');
+            return moment(columnValue.toDate()).format("DD/MM/YYYY");
         default:
             return columnValue;
     }

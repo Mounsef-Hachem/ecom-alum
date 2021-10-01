@@ -39,12 +39,6 @@ const ProductsResults = () => {
 
     if (!Array.isArray(data)) return null;
 
-    if (data.length < 1) {
-        return (
-            <p>No search results.</p>
-        );
-    }
-
     const handleLoadMore = () => {
         dispatch(
             fetchProductsStart({ filterType, startAfterDoc: queryDoc, persistProducts: data })
@@ -64,7 +58,7 @@ const ProductsResults = () => {
                         <div className="view-options-filters">
                             <label htmlFor="view-options-filter">Filter By</label>
                             <select value={filterType} onChange={handleFilter} id="view-options-filter" className="form-select form-select-sm">
-                                <option value="" disabled hidden selected>
+                                <option value="" selected>
                                     Show All
                                 </option>
                                 {(Array.isArray(categories) && categories.length > 0) && categories.map((category, index) => {
@@ -76,25 +70,30 @@ const ProductsResults = () => {
                         </div>
                     </div>
                 </div>
-                <div className="products-view-list products-list">
-                    <div className="product-list" >
-                        {data.map((product, pos) => {
-                            const { productImages, productName, productPrice } = product;
-                            if (!productImages || !productName || typeof productPrice === 'undefined') return null;
+                {data.length < 1 ?
+                    (
+                        <p>No search results.</p>
+                    ) :
+                    (<div className="products-view-list products-list">
+                        <div className="product-list" >
+                            {data.map((product, pos) => {
+                                const { productImages, productName, productPrice } = product;
+                                if (!productImages || !productName || typeof productPrice === 'undefined') return null;
 
-                            const configProduct = {
-                                ...product
-                            }
+                                const configProduct = {
+                                    ...product
+                                }
 
-                            return (
-                                <div className="product-list-item" key={pos}>
-                                    <ProductCard {...configProduct} />
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-                {!isLastPage && (
+                                return (
+                                    <div className="product-list-item" key={pos}>
+                                        <ProductCard {...configProduct} />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>)
+                }
+                {!isLastPage && products.length >= 8 && (
                     <Pagination  {...configLoadMore} />
                 )}
             </div>

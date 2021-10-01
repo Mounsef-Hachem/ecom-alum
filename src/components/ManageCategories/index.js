@@ -99,7 +99,7 @@ const ManageCategories = ({ categories }) => {
 
     return (
         <MaterialTable
-            title="Categories"
+            title={`${Array.isArray(categories) ? categories.length : "0"} Categories`}
             columns={columns}
             data={categories}
             editable={{

@@ -36,9 +36,9 @@ const OrderDetails = ({ order, orderID, orderTotal, back }) => {
                     </h5>
                     <div className="order-header__subtitle">
                         Was placed on
-                        <mark className="order-header__date"> {order.orderCreatedDate && (moment(order.orderCreatedDate.nano).format('DD/MM/YYYY'))} </mark>
+                        <mark className="order-header__date"> {order.orderCreatedDate && (moment(order.orderCreatedDate.toDate()).format('DD/MM/YYYY'))} </mark>
                         and is currently
-                        <mark className="order-header__status"> On hold</mark>.
+                        <mark className="order-header__status"> {order.status} </mark>.
                     </div>
                 </div>
                 <div className="card-divider"></div>
@@ -97,39 +97,40 @@ const OrderDetails = ({ order, orderID, orderTotal, back }) => {
                         </div>
                     </div>
                 </div>
-                <div className="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
-                    <div className="card address-card address-card--featured">
-                        <div className="address-card__body">
-                            <div className="address-card__badge address-card__badge--muted">
-                                Billing Address
-                            </div>
-                            <div className="address-card__name">
-                                {order.recipientName}
-                            </div>
-                            <div className="address-card__row">
-                                {billingAdress && (
-                                    <>
-                                        {billingAdress.country}
-                                        <br />
-                                        {billingAdress.postal_code},
-                                        {billingAdress.city}
-                                        <br />
-                                        {billingAdress.line1}, {billingAdress.line2}
-                                    </>
-                                )}
-                            </div>
-                            <div className="address-card__row">
-                                <div className="address-card__row-title">
-                                    Phone Number
+                {billingAdress &&
+                    <div className="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
+                        <div className="card address-card address-card--featured">
+                            <div className="address-card__body">
+                                <div className="address-card__badge address-card__badge--muted">
+                                    Billing Address
                                 </div>
-                                <div className="address-card__row-content">
-                                    {order.phone}
+                                <div className="address-card__name">
+                                    {order.recipientName}
+                                </div>
+                                <div className="address-card__row">
+                                    {billingAdress && (
+                                        <>
+                                            {billingAdress.country}
+                                            <br />
+                                            {billingAdress.postal_code},
+                                            {billingAdress.city}
+                                            <br />
+                                            {billingAdress.line1}, {billingAdress.line2}
+                                        </>
+                                    )}
+                                </div>
+                                <div className="address-card__row">
+                                    <div className="address-card__row-title">
+                                        Phone Number
+                                    </div>
+                                    <div className="address-card__row-content">
+                                        {order.phone}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
+                }
             </div>
         </>
     )

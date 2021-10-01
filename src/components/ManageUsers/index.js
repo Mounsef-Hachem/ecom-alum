@@ -33,7 +33,7 @@ const ManageUsers = ({ users }) => {
 
     return (
         <MaterialTable
-            title="Users"
+            title={`${Array.isArray(users) ? users.length : "0"} Users`}
             columns={columns}
             data={users}
             editable={{
