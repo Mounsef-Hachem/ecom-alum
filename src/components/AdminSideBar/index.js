@@ -39,7 +39,7 @@ const AdminSideBar = () => {
     <ProSidebar collapsed={menuCollapse}>
       <SidebarHeader>
         <div className="logotext">
-          {menuCollapse ? <img src={LogoMin} alt="Alumen" /> : <img src={Logo} alt="Alumen" />}
+          {menuCollapse ? <img src={LogoMin} alt="Alumen" /> : <img src={LogoMin} alt="Alumen" />}
         </div>
         <div className="closemenu" onClick={menuIconClick}>
           {menuCollapse ? <FiArrowRightCircle /> : <FiArrowLeftCircle />}

@@ -139,7 +139,7 @@ const Footer = props => {
                     </div>
                     <div class="site-footer__bottom">
                         <div class="site-footer__copyright">
-                            Made by Saad MOUTALIB & Monsif ELHACHMI —
+                            Made by Saad MOUTALIB & Mounsef HACHEM —
                             2021
                         </div>
                         <div class="site-footer__payments"><img src={Payments} alt="" />

@@ -13,47 +13,19 @@ const Directory = props => {
             <div className="container">
                 <Slide>
                     <div className="item">
-                        <div style={{ 'backgroundImage': `url(${Slide1})` }}>
-                            <div className="content fixed-bottom">
-                                <div className="title">
-                                    <h1>Title</h1>
-                                </div>
-                                <div className="text">
-                                    <p>Some text</p>
-                                </div>
-                                <div className="button">
-                                    <span className="btn btn-primary btn-lg">Shop Now</span>
-                                </div>
-                            </div>
+                        <div style={{ 'backgroundImage': `url("https://www.bricoma.ma/pub/media/switcher_switcher/r/a/rangement_ordinateur.jpeg")` }}>
+
                         </div>
                     </div>
                     <div className="item">
-                        <div style={{ 'backgroundImage': `url(${Slide2})` }}>
-                            <div className="content fixed-bottom">
-                                <div className="title">
-                                    <h1>Title</h1>
-                                </div>
-                                <div className="text">
-                                    <p>Some text</p>
-                                </div>
-                                <div className="button">
-                                    <span className="btn btn-primary btn-lg">Shop Now</span>
-                                </div>
-                            </div>
+                        <div style={{ 'backgroundImage': `url("https://www.bricoma.ma/pub/media/switcher_switcher/s/e/se_curite_ordinateur.jpeg")` }}>
+
                         </div>
                     </div>
                     <div className="item">
-                        <div style={{ 'backgroundImage': `url(${Slide3})` }}>
+                        <div style={{ 'backgroundImage': `url("https://www.bricoma.ma/pub/media/switcher_switcher/v/e/version_mobile_bosch.jpeg")` }}>
                             <div className="content fixed-bottom">
-                                <div className="title">
-                                    <h1>Title</h1>
-                                </div>
-                                <div className="text">
-                                    <p>Some text</p>
-                                </div>
-                                <div className="button">
-                                    <span className="btn btn-primary btn-lg">Shop Now</span>
-                                </div>
+
                             </div>
                         </div>
                     </div>
